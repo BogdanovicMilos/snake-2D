@@ -55,13 +55,11 @@ public class GameEngine extends JPanel implements ActionListener {
 //        sprite = coinSpriteSheet.getSpriteSheet(0,0,25,25);
 
         food = new Food(0, 0);
-        snake = new Snake();
         keyboard = Keyboard.getInstance();
         this.addKeyListener(keyboard);
         timer = new Timer(delay, this);
         timer.start();
         init();
-
     }
 
     private void init(){
@@ -202,8 +200,12 @@ public class GameEngine extends JPanel implements ActionListener {
     private void produceFood(){
         int locX = generateRandom(GameForm.WIDTH / 20 - 5, 1);
         int locY = generateRandom(GameForm.HEIGHT / 20 - 5, 1);
-
         food.setFoodLocation(locX,locY);
+        while (snake.equals(food.getFoodLocation())){
+            locX = generateRandom(GameForm.WIDTH / 20 - 5, 1);
+            locY = generateRandom(GameForm.HEIGHT / 20 - 5, 1);
+            food.setFoodLocation(locX,locY);
+        }
     }
 
     private int generateRandom(int high, int low){
@@ -246,14 +248,17 @@ public class GameEngine extends JPanel implements ActionListener {
                 produceFood();
                 snake.growSnake();
                 score++;
-                timer.setDelay(delay--);
+                this.timer.setDelay(delay--);
             }
+
             if (snake.isDead()){
+                this.timer.setDelay(delay=80);
                 isGameOver = true;
             }
         }
 
         if (isGameOver && keyboard.isDown(KeyEvent.VK_R)){
+            this.timer.setDelay(delay=80);
             isGameOver = false;
             init();
         }
