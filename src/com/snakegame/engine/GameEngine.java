@@ -180,6 +180,7 @@ public class GameEngine extends JPanel implements ActionListener {
             }
             repaint();
         }
+        repaint();
     }
 
     private void checkSnakeMovement(){
