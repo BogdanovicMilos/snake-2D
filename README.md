@@ -1,1 +1,1 @@
-2D Snake game
+2D Snake game.
